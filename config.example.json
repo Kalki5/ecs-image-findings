@@ -1,0 +1,12 @@
+[
+  {
+    "roleArn": "arn:aws:iam::111122223333:role/EcsInventoryReadOnly",
+    "ssmParameterName": "/platform/ecs/cluster-name",
+    "region": "us-east-1"
+  },
+  {
+    "roleArn": "arn:aws:iam::444455556666:role/EcsInventoryReadOnly",
+    "ssmParameterName": "/platform/ecs/cluster-name",
+    "region": "eu-west-1"
+  }
+]

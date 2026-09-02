@@ -1,0 +1,22 @@
+{
+  "name": "ecs-image-inventory-lambda",
+  "version": "1.0.0",
+  "description": "Lambda that inventories ECS service container images across accounts/regions into an Excel workbook.",
+  "main": "src/index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "rm -rf dist function.zip && npm ci --omit=dev && zip -qr function.zip src node_modules package.json"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ecs": "^3.658.0",
+    "@aws-sdk/client-inspector2": "^3.1123.0",
+    "@aws-sdk/client-s3": "^3.658.0",
+    "@aws-sdk/client-ssm": "^3.658.0",
+    "@aws-sdk/client-sts": "^3.658.0",
+    "@aws-sdk/lib-storage": "^3.658.0",
+    "exceljs": "^4.4.0"
+  }
+}
