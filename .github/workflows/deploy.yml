@@ -1,0 +1,85 @@
+name: Deploy Lambda
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: ecs-image-inventory-lambda-deploy
+  cancel-in-progress: false
+
+env:
+  AWS_ROLE_TO_ASSUME: <UPDATE THE ROLE ARN>
+  AWS_REGION: us-east-1
+
+jobs:
+  build:
+    name: Build Lambda package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lambda-zip
+          path: lambda.zip
+
+  plan:
+    name: Terraform plan
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: lambda-zip
+          path: .
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ env.AWS_REGION }}
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.14.8"
+      - run: terraform init
+        working-directory: infra
+      - run: terraform plan -out=tfplan
+        working-directory: infra
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tfplan
+          path: infra/tfplan
+          retention-days: 7
+
+  apply:
+    name: Terraform apply
+    needs: plan
+    runs-on: ubuntu-latest
+    environment: <UPDATE THE ENVIRONMENT NAME>
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: lambda-zip
+          path: .
+      - uses: actions/download-artifact@v4
+        with:
+          name: tfplan
+          path: infra
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_TO_ASSUME }}
+          aws-region: ${{ env.AWS_REGION }}
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.14.8"
+      - run: terraform init
+        working-directory: infra
+      - run: terraform apply tfplan
+        working-directory: infra

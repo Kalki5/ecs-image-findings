@@ -1,0 +1,9 @@
+lambda_role_arn = "arn:aws:iam::123456789012:role/ecs-image-inventory-lambda-role"
+config_bucket = "my-ecs-inventory-config-bucket"
+config_key    = "ecs-image-inventory/targets.json"
+# lambda_function_name     = "ecs-image-inventory-lambda"
+# lambda_memory_size       = 1024
+# output_bucket            = ""
+# output_prefix            = "ecs-image-inventory"
+# assume_role_session_name = "ecs-image-inventory"
+# collect_findings         = false
