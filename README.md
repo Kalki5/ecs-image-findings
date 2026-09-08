@@ -41,9 +41,10 @@ Name · Service Name · Task Definition Name · Container Name · Image URI · E
 Repository Name (from the image URI; blank for non-ECR registries).
 
 **Inspector Findings** — ECR Repository Name · Image ID · Image URI · ECS Service
-ARNs (every service running that image) · Vulnerability ID · Finding Title · Image
+ARNs (every service running that image) · Vulnerability ID · Finding Title · Finding
+Description · Severity · Fix Available · Exploit Available · Vendor Severity · Image
 Pushed At · Vulnerability Published Date · Vulnerability Discovered Date · Package
-Manager. Empty unless `COLLECT_FINDINGS` is set.
+Manager · Filepath (comma-separated). Empty unless `COLLECT_FINDINGS` is set.
 
 **Errors** — present only when something failed; the run itself still succeeds.
 

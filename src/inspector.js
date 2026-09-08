@@ -48,6 +48,9 @@ function toRows(finding, serviceArnsByImage) {
     const packageManagers = new Set(
       (vulnerability?.vulnerablePackages ?? []).map((p) => p.packageManager).filter(Boolean)
     );
+    const filePaths = new Set(
+      (vulnerability?.vulnerablePackages ?? []).map((p) => p.filePath).filter(Boolean)
+    );
 
     return [
       {
@@ -61,6 +64,12 @@ function toRows(finding, serviceArnsByImage) {
         vulnerabilityPublishedAt: vulnerability?.vendorCreatedAt,
         vulnerabilityDiscoveredAt: finding.firstObservedAt,
         packageManager: [...packageManagers].join(', '),
+        severity: finding.severity ?? '',
+        fixAvailable: finding.fixAvailable ?? '',
+        filePaths: [...filePaths].join(', '),
+        vendorSeverity: vulnerability?.vendorSeverity ?? '',
+        exploitAvailable: finding.exploitAvailable ?? '',
+        description: finding.description ?? '',
       },
     ];
   });

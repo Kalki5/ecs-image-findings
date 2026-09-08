@@ -21,10 +21,16 @@ const FINDING_COLUMNS = [
   { header: 'ECS Service ARNs', key: 'serviceArns', width: 90 },
   { header: 'Vulnerability ID', key: 'vulnerabilityId', width: 22 },
   { header: 'Finding Title', key: 'title', width: 70 },
+  { header: 'Finding Description', key: 'description', width: 80 },
+  { header: 'Severity', key: 'severity', width: 14 },
+  { header: 'Fix Available', key: 'fixAvailable', width: 14 },
+  { header: 'Exploit Available', key: 'exploitAvailable', width: 16 },
+  { header: 'Vendor Severity', key: 'vendorSeverity', width: 16 },
   { header: 'Image Pushed At', key: 'imagePushedAt', width: 22, style: { numFmt: DATE_FORMAT } },
   { header: 'Vulnerability Published Date', key: 'vulnerabilityPublishedAt', width: 26, style: { numFmt: DATE_FORMAT } },
   { header: 'Vulnerability Discovered Date', key: 'vulnerabilityDiscoveredAt', width: 26, style: { numFmt: DATE_FORMAT } },
   { header: 'Package Manager', key: 'packageManager', width: 22 },
+  { header: 'Filepath', key: 'filePaths', width: 60 },
 ];
 
 function addSheet(workbook, name, columns, rows) {
