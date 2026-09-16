@@ -66,7 +66,13 @@ input — everything comes from the environment and the config file.
 
 Execution role: `s3:GetObject` on the config, `s3:PutObject`+`s3:AbortMultipartUpload`
 on the output prefix, `sts:AssumeRole` on every `roleArn` in the config, and
-`inspector2:ListFindings` (only when `COLLECT_FINDINGS` is on).
+`inspector2:ListFindings` (only when `COLLECT_FINDINGS` is on). The function is
+deployed in a VPC, so the execution role also needs the VPC network-interface
+permissions — attach the AWS managed policy
+`AWSLambdaVPCAccessExecutionRole` (or grant `ec2:CreateNetworkInterface`,
+`ec2:DescribeNetworkInterfaces`, `ec2:DeleteNetworkInterface` on the function's
+ENI). The security group created by Terraform is outbound-only; no inbound rules
+are needed.
 
 Each target role's policy: `ssm:GetParameter`, `ecs:ListServices`,
 `ecs:DescribeServices`, `ecs:DescribeTaskDefinition` (plus `kms:Decrypt` if the

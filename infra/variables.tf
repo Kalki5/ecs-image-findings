@@ -48,3 +48,13 @@ variable "collect_findings" {
   type        = bool
   default     = true
 }
+
+variable "vpc_id" {
+  description = "ID of the VPC in which to create the Lambda security group and deploy the function."
+  type        = string
+}
+
+variable "vpc_subnet_ids" {
+  description = "Private subnet IDs (in vpc_id) the Lambda ENIs are placed in. The subnets must have a route to a NAT gateway (or VPC endpoints for S3/STS/SSM/ECS/Inspector) so the function can reach AWS services."
+  type        = list(string)
+}
